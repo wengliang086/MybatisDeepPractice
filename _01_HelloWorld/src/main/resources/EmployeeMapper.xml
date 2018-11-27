@@ -5,7 +5,15 @@
 <mapper namespace="com.my.test.mybatis.dao.EmployeeMapper">
 
     <!--开启该 namespace 下的二级缓存-->
-    <cache/>
+    <!--
+            eviction LRU（Least Recently Used）、FIFO（First in first out）
+            flushInterval 缓存时间，以毫秒为单位
+            size 缓存大小
+            readOnly 如果为 false 的话，缓存对象必须是可序列化的 -->
+    <cache eviction="LUR"
+           flushInterval="60000"
+           size="1000"
+           readOnly="true"/>
 
     <select id="selectEmployeeById" resultType="com.my.test.mybatis.bean.Employee">
       select * from tbl_employee where id = #{id}

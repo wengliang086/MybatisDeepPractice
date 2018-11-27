@@ -78,10 +78,15 @@ public class MyBatisTest {
         SqlSession sqlSession2 = sqlSessionFactory.openSession();
         try {
             Employee employee = sqlSession.getMapper(EmployeeMapper.class).selectEmployeeById(1);
+            /**
+             * 注意，只有在 SqlSession 关闭的的时候，才会将其数据写入到二级缓存
+             */
+            sqlSession.close();
+
             Employee employee2 = sqlSession2.getMapper(EmployeeMapper.class).selectEmployeeById(1);
             System.out.println(employee == employee2);
+            System.out.println(employee.equals(employee2));
         } finally {
-            sqlSession.close();
             sqlSession2.close();
         }
     }
